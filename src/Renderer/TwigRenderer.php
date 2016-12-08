@@ -17,6 +17,13 @@ use Zend\View\Renderer\RendererInterface;
 use Zend\View\Renderer\TreeRendererInterface;
 use Zend\View\Resolver\ResolverInterface;
 use Zend\View\View;
+use Zend\View\ViewEvent;
+
+use Zend\EventManager\EventManager;
+
+use Zend\View\Renderer\PhpRenderer;
+
+use Zend\View\Renderer\RendererInterface as ZendRenderer;
 
 class TwigRenderer implements RendererInterface, TreeRendererInterface
 {
@@ -59,6 +66,8 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      */
     private $zendHelpers;
 
+    private $eventManager;
+
     /**
      * Force \Zend\View\Model\ViewModel::$terminate to true
      * @var bool
@@ -76,6 +85,10 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
              ->setEnvironment($env)
              ->setLoader($env->getLoader())
              ->setResolver($resolver);
+    }
+
+    public function setEventManager(EventManager $eventManager) {
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -194,11 +207,29 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
                  * @var \Zend\View\Model\ViewModel $child
                  * @var \Twig_Template             $template
                  */
-                $result = $this->render($child, $values);
+               // $result = $this->render($child, $values);
 
-                if ($this->isForceStandalone() || $child->terminate()) {
-                    return $result;
+                $event   = new ViewEvent();
+                $event->setTarget($this);
+                $event->setModel($child);
+                $event->setName(ViewEvent::EVENT_RENDERER);
+                $events  = $this->eventManager;
+                $results = $events->triggerEventUntil(function ($result) {
+                    return ($result instanceof ZendRenderer);
+                }, $event);
+                $renderer = $results->last();
+                if (!$renderer instanceof ZendRenderer) {
+                    throw new Exception\RuntimeException(sprintf(
+                        '%s: no renderer selected!',
+                        __METHOD__
+                    ));
                 }
+     
+                $result = $renderer->render($child);
+
+                // if ($this->isForceStandalone() || $child->terminate()) {
+                //     return $result;
+                // }
 
                 $child->setOption('has_parent', true);
 

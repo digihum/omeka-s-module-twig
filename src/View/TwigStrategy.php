@@ -9,6 +9,7 @@ use Zend\EventManager\ListenerAggregateTrait;
 use Zend\View\Renderer\RendererInterface;
 use Zend\View\ViewEvent;
 use Zend\Mvc\MvcEvent;
+use Zend\EventManager\EventManager;
 
 class TwigStrategy extends AbstractListenerAggregate
 {
@@ -76,6 +77,8 @@ class TwigStrategy extends AbstractListenerAggregate
     public function selectRender(ViewEvent $e)
     {
         if($this->renderer !== NULL && $this->renderer->canRender($e->getModel()->getTemplate())) {
+            $eventManager = $e->getTarget()->getEventManager();
+            $this->renderer->setEventManager($eventManager);
             return $this->renderer;
         } else {
             return NULL;

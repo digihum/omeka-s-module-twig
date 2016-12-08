@@ -1,0 +1,70 @@
+
+{# page settings #}
+
+{% do htmlElement('html').setAttribute('lang', 'en') %}
+
+{% do headMeta().setCharset('utf-8') %}
+{% do headMeta().appendName('viewport', 'width=device-width, initial-scale=1') %}
+{% do headTitle(setting('installation_title', 'Omeka S')).setSeparator(' · ') %}
+
+
+{% do headLink().prependStylesheet(assetUrl('css/style.css')) %}
+{% do headLink().prependStylesheet(assetUrl('css/iconfonts.css', 'Omeka')) %}
+{% do headLink().prependStylesheet('//fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700italic,700') %}
+
+
+{% do headScript().prependFile(assetUrl('js/default.js')) %}
+{% do headScript().prependFile(assetUrl('js/jquery.js', 'Omeka')) %}
+
+{% do trigger('view.layout') %}
+
+
+{# start of document #}
+
+{{ doctype() }}
+{{ htmlElement('html') }}
+
+    <head>
+        {{ headMeta() }}
+        {{ headTitle() }}
+        {{ headLink() }}
+        {{ headStyle() }}
+        {{ headScript() }}
+    </head>
+
+    {{ htmlElement('body') }}
+        <header>
+            {% if themeSetting('logo') %}
+                <a href="{{ site.url }}" class="site-title"><img src="{{ themeSettingAssetUrl('logo') }}" title="Logo"></a>
+            {% else %}
+                <a href="{{ site.url }}" class="site-title">{{ pageTitle(site.title) }}</a>
+            {% endif %}
+            <div id="search">
+                <form action="<{{ url('site/resource', {'controller': 'item', 'action':'browse'}, true) }}" id="search-form">
+                    {% if _GET['property'][0]['in'][0] is defined %}
+                        {% set searchValue = _GET['property'][0]['in'][0] %}
+                    {% else %}
+                        {% set searchValue = '' %}
+                    {% endif %}
+                    
+                    <input type="text" name="property[0][in][]" value="{{ searchValue }}" placeholder="{{ translate('Search items') }}">
+                    <button type="submit">{{ translate('Search') }}</button>
+                </form>
+            </div>
+
+            <nav>
+                {{ site.publicNav().menu().renderMenu(null, { 'maxDepth': themeSetting('nav_depth') - 1 }) | raw }}
+            </nav>
+        </header>
+        <div id="content" role="main">
+            {{ content | raw }}
+        </div>
+        <footer>
+            {% if themeSetting('footer') %}
+                {{ themeSetting('footer') }}
+            {% else %}
+                {{ translate('Powered by Omeka S') }}
+            {% endif %}
+        </footer>
+    </body>
+</html>
