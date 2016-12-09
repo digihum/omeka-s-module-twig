@@ -1,11 +1,11 @@
 <?php
 
-namespace ZendTwig\Extension;
+namespace OmekaTwig\Extension;
 
 class Extension extends AbstractExtension
 {
     /**
-     * @return \ZendTwig\Renderer\TwigRenderer
+     * @return \OmekaTwig\Renderer\TwigRenderer
      */
     public function getRenderer()
     {

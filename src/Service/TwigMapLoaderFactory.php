@@ -1,9 +1,9 @@
 <?php
 
-namespace ZendTwig\Service;
+namespace OmekaTwig\Service;
 
-use ZendTwig\Module;
-use ZendTwig\Loader\MapLoader;
+use OmekaTwig\Module;
+use OmekaTwig\Loader\MapLoader;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;

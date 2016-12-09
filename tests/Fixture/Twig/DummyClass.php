@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendTwig\Test\Fixture;
+namespace OmekaTwig\Test\Fixture;
 
 class DummyClass
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace ZendTwig\Renderer;
+namespace OmekaTwig\Renderer;
 
 use Twig_Environment;
 use Twig_Loader_Chain;
 
-use ZendTwig\Resolver\TwigResolver;
-use ZendTwig\View\HelperPluginManager as TwigHelperPluginManager;
+use OmekaTwig\Resolver\TwigResolver;
+use OmekaTwig\View\HelperPluginManager as TwigHelperPluginManager;
 
 use Zend\View\Exception\DomainException;
 use Zend\View\Exception\InvalidArgumentException;

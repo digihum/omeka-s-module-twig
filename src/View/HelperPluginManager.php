@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendTwig\View;
+namespace OmekaTwig\View;
 
 class HelperPluginManager extends \Zend\View\HelperPluginManager
 {

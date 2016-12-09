@@ -1,9 +1,9 @@
 <?php
 
-namespace ZendTwig\Service;
+namespace OmekaTwig\Service;
 
-use ZendTwig\Renderer\TwigRenderer;
-use ZendTwig\Extension\Extension;
+use OmekaTwig\Renderer\TwigRenderer;
+use OmekaTwig\Extension\Extension;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;

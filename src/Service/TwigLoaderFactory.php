@@ -1,9 +1,9 @@
 <?php
-namespace ZendTwig\Service;
+namespace OmekaTwig\Service;
 
 use Twig_Environment;
 use Twig_Loader_Chain;
-use ZendTwig\Module;
+use OmekaTwig\Module;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;

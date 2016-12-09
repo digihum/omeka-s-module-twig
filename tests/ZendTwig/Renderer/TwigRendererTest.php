@@ -1,18 +1,18 @@
 <?php
 
-namespace ZendTwig\Test\Renderer;
+namespace OmekaTwig\Test\Renderer;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Twig_Environment;
-use ZendTwig\Test\Bootstrap;
-use ZendTwig\Renderer\TwigRenderer;
+use OmekaTwig\Test\Bootstrap;
+use OmekaTwig\Renderer\TwigRenderer;
 
 class TwigRendererTest extends TestCase
 {
     public function testGetEngine()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -25,7 +25,7 @@ class TwigRendererTest extends TestCase
     public function testGetEnv()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -41,7 +41,7 @@ class TwigRendererTest extends TestCase
     public function testGetEnvEx()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -54,7 +54,7 @@ class TwigRendererTest extends TestCase
     public function testGetLoader()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -70,7 +70,7 @@ class TwigRendererTest extends TestCase
     public function testGetLoaderEx()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -83,19 +83,19 @@ class TwigRendererTest extends TestCase
     public function testGetResolver()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm       = Bootstrap::getInstance()->getServiceManager();
         $render   = $sm->get(TwigRenderer::class);
         $resolver = $render->getResolver();
 
-        $this->assertInstanceOf('\ZendTwig\Resolver\TwigResolver', $resolver);
+        $this->assertInstanceOf('\OmekaTwig\Resolver\TwigResolver', $resolver);
     }
 
     public function testGetView()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -107,7 +107,7 @@ class TwigRendererTest extends TestCase
     public function testSetGetCanRenderTrees()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm           = Bootstrap::getInstance()->getServiceManager();
         $render       = $sm->get(TwigRenderer::class);
@@ -127,7 +127,7 @@ class TwigRendererTest extends TestCase
     public function testRenderModelExNotTemplate()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -143,7 +143,7 @@ class TwigRendererTest extends TestCase
     public function testRenderModelOptions()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm        = Bootstrap::getInstance()->getServiceManager();
         $render    = $sm->get(TwigRenderer::class);
@@ -172,7 +172,7 @@ class TwigRendererTest extends TestCase
     public function testRenderModelString()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm        = Bootstrap::getInstance()->getServiceManager();
         $render    = $sm->get(TwigRenderer::class);
@@ -193,7 +193,7 @@ class TwigRendererTest extends TestCase
     public function testRenderNotExistsEx()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm        = Bootstrap::getInstance()->getServiceManager();
         $render    = $sm->get(TwigRenderer::class);
@@ -207,7 +207,7 @@ class TwigRendererTest extends TestCase
     public function testRenderChild()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -257,7 +257,7 @@ class TwigRendererTest extends TestCase
     public function testRenderChildNoAppend()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -306,7 +306,7 @@ class TwigRendererTest extends TestCase
     public function testCallPlugin()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -319,7 +319,7 @@ class TwigRendererTest extends TestCase
     public function testForceStandaloneModel()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);
@@ -345,7 +345,7 @@ class TwigRendererTest extends TestCase
     public function testSimpleStandaloneModel()
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $render
+         * @var \OmekaTwig\Renderer\TwigRenderer $render
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $render = $sm->get(TwigRenderer::class);

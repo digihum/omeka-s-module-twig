@@ -1,13 +1,13 @@
 <?php
-namespace ZendTwig\Service;
+namespace OmekaTwig\Service;
 
 use Twig_Environment;
-use ZendTwig\Module;
+use OmekaTwig\Module;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use ZendTwig\View\FallbackFunction;
-use ZendTwig\View\HelperPluginManager;
+use OmekaTwig\View\FallbackFunction;
+use OmekaTwig\View\HelperPluginManager;
 
 class TwigEnvironmentFactory implements FactoryInterface
 {

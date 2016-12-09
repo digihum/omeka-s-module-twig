@@ -1,10 +1,10 @@
 <?php
 
-namespace ZendTwig\Test;
+namespace OmekaTwig\Test;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Mvc\MvcEvent;
-use ZendTwig\Module;
+use OmekaTwig\Module;
 
 class ModuleTest extends TestCase
 {
@@ -70,7 +70,7 @@ class ModuleTest extends TestCase
         $twig = $e->getApplication()->getServiceManager()->get('Twig_Environment');
         $ex   = $twig->getExtensions();
 
-        $this->assertNotEmpty($ex['ZendTwig\Test\Fixture\Extension\DummyExtension']);
+        $this->assertNotEmpty($ex['OmekaTwig\Test\Fixture\Extension\DummyExtension']);
     }
 
     /**
@@ -79,11 +79,11 @@ class ModuleTest extends TestCase
     public function testLoadModule()
     {
         /**
-         * @var \ZendTwig\Module $module
+         * @var \OmekaTwig\Module $module
          */
-        $module = Bootstrap::getInstance()->getModule('ZendTwig');
+        $module = Bootstrap::getInstance()->getModule('OmekaTwig');
 
-        $this->assertInstanceOf('\ZendTwig\Module', $module);
+        $this->assertInstanceOf('\OmekaTwig\Module', $module);
 
         $configA = include(__DIR__ . '/../../config/module.config.php');
         $configB = $module->getConfig();

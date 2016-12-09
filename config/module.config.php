@@ -2,29 +2,29 @@
 
 return [
     'modules' => [
-        'ZendTwig',
+        'OmekaTwig',
     ],
     'view_manager' => [
         'strategies' => [
-            ZendTwig\View\TwigStrategy::class,
+            OmekaTwig\View\TwigStrategy::class,
         ],
     ],
     // 'listeners' => [
-    //     'ZendTwig\View\TwigStrategy',
+    //     'OmekaTwig\View\TwigStrategy',
     // ],
     'service_manager' => [
         'factories' => [
-            \ZendTwig\View\TwigStrategy::class => \ZendTwig\Service\TwigStrategyFactory::class,
-            \ZendTwig\View\HelperPluginManager::class => \ZendTwig\Service\TwigHelperPluginManagerFactory::class,
-            \ZendTwig\Renderer\TwigRenderer::class => \ZendTwig\Service\TwigRendererFactory::class,
-            \ZendTwig\Resolver\TwigResolver::class => \ZendTwig\Service\TwigResolverFactory::class,
-            \Twig_Environment::class => \ZendTwig\Service\TwigEnvironmentFactory::class,
-            \Twig_Loader_Chain::class => \ZendTwig\Service\TwigLoaderFactory::class,
-            \ZendTwig\Loader\MapLoader::class => \ZendTwig\Service\TwigMapLoaderFactory::class,
-            \ZendTwig\Loader\StackLoader::class => \ZendTwig\Service\TwigStackLoaderFactory::class,
+            \OmekaTwig\View\TwigStrategy::class => \OmekaTwig\Service\TwigStrategyFactory::class,
+            \OmekaTwig\View\HelperPluginManager::class => \OmekaTwig\Service\TwigHelperPluginManagerFactory::class,
+            \OmekaTwig\Renderer\TwigRenderer::class => \OmekaTwig\Service\TwigRendererFactory::class,
+            \OmekaTwig\Resolver\TwigResolver::class => \OmekaTwig\Service\TwigResolverFactory::class,
+            \Twig_Environment::class => \OmekaTwig\Service\TwigEnvironmentFactory::class,
+            \Twig_Loader_Chain::class => \OmekaTwig\Service\TwigLoaderFactory::class,
+            \OmekaTwig\Loader\MapLoader::class => \OmekaTwig\Service\TwigMapLoaderFactory::class,
+            \OmekaTwig\Loader\StackLoader::class => \OmekaTwig\Service\TwigStackLoaderFactory::class,
         ],
     ],
-    'zend_twig' => [
+    'omeka_twig' => [
         /**
          * In a ZF3 by default we have this structure:
          *  - ViewModel with template from 'layout/layout'
@@ -45,14 +45,14 @@ return [
          * Default loaders for views
          */
         'loader_chain' => [
-            \ZendTwig\Loader\MapLoader::class,
-            \ZendTwig\Loader\StackLoader::class,
+            \OmekaTwig\Loader\MapLoader::class,
+            \OmekaTwig\Loader\StackLoader::class,
         ],
         /**
          * List of Twig Extensions
          */
         'extensions' => [
-            \ZendTwig\Extension\Extension::class,
+            \OmekaTwig\Extension\Extension::class,
         ],
         'helpers' => [
             'configs' => [

@@ -1,11 +1,11 @@
 <?php
-namespace ZendTwig\Service;
+namespace OmekaTwig\Service;
 
 use Twig_Environment;
-use ZendTwig\Module;
-use ZendTwig\Renderer\TwigRenderer;
-use ZendTwig\Resolver\TwigResolver;
-use ZendTwig\View\HelperPluginManager as TwigHelperPluginManager;
+use OmekaTwig\Module;
+use OmekaTwig\Renderer\TwigRenderer;
+use OmekaTwig\Resolver\TwigResolver;
+use OmekaTwig\View\HelperPluginManager as TwigHelperPluginManager;
 
 use Interop\Container\ContainerInterface;
 use Zend\View\View;

@@ -1,8 +1,8 @@
 <?php
 
-namespace ZendTwig\Test\Fixture\Extension;
+namespace OmekaTwig\Test\Fixture\Extension;
 
-use ZendTwig\Extension\Extension;
+use OmekaTwig\Extension\Extension;
 
 class DummyExtension extends Extension
 {

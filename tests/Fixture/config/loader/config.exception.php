@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'zend_twig'       => [
+    'omeka_twig'       => [
         'loader_chain' => [
             null
         ],

@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendTwig\Loader;
+namespace OmekaTwig\Loader;
 
 use Twig_Error_Loader;
 use Twig_Loader_Filesystem;

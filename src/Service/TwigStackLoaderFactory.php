@@ -1,9 +1,9 @@
 <?php
 
-namespace ZendTwig\Service;
+namespace OmekaTwig\Service;
 
-use ZendTwig\Loader\StackLoader;
-use ZendTwig\Module;
+use OmekaTwig\Loader\StackLoader;
+use OmekaTwig\Module;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -15,7 +15,7 @@ class TwigStackLoaderFactory implements FactoryInterface
      * @param string             $requestedName
      * @param array|null         $options
      *
-     * @return \ZendTwig\Loader\StackLoader
+     * @return \OmekaTwig\Loader\StackLoader
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {

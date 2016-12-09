@@ -3,12 +3,12 @@
 return [
     'service_manager' => [
         'factories' => [
-            \ZendTwig\Test\Fixture\Extension\DummyExtension::class => \ZendTwig\Service\TwigExtensionFactory::class,
+            \OmekaTwig\Test\Fixture\Extension\DummyExtension::class => \OmekaTwig\Service\TwigExtensionFactory::class,
         ],
     ],
-    'zend_twig'       => [
+    'omeka_twig'       => [
         'extensions' => [
-            \ZendTwig\Test\Fixture\Extension\DummyExtension::class,
+            \OmekaTwig\Test\Fixture\Extension\DummyExtension::class,
         ],
     ],
 ];

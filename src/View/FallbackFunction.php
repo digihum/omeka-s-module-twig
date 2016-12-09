@@ -1,10 +1,10 @@
 <?php
 
-namespace ZendTwig\View;
+namespace OmekaTwig\View;
 
 use Twig_SimpleFunction;
 use Zend\View\Helper\HelperInterface;
-use ZendTwig\Module;
+use OmekaTwig\Module;
 
 class FallbackFunction extends Twig_SimpleFunction
 {
@@ -29,7 +29,7 @@ class FallbackFunction extends Twig_SimpleFunction
          * @return mixed
          */
         $callable = function ($env, ... $args) {
-            $plugin = $env->getExtension('\ZendTwig\Extension\Extension')
+            $plugin = $env->getExtension('\OmekaTwig\Extension\Extension')
                           ->getRenderer()
                           ->plugin($this->name);
 

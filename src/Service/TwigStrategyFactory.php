@@ -1,10 +1,10 @@
 <?php
-namespace ZendTwig\Service;
+namespace OmekaTwig\Service;
 
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 use Zend\View\Strategy\PhpRendererStrategy;
-use ZendTwig\View\TwigStrategy;
+use OmekaTwig\View\TwigStrategy;
 
 class TwigStrategyFactory implements FactoryInterface
 {
@@ -18,10 +18,10 @@ class TwigStrategyFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         /**
-         * @var \ZendTwig\Renderer\TwigRenderer $renderer
+         * @var \OmekaTwig\Renderer\TwigRenderer $renderer
          * @var \Zend\View\View $view
          */
-        //$renderer = $container->get('ZendTwig\Renderer\TwigRenderer');
+        //$renderer = $container->get('OmekaTwig\Renderer\TwigRenderer');
         $strategy = new TwigStrategy();
 
         return $strategy;

@@ -1,15 +1,15 @@
 <?php
 
-namespace ZendTwig\Extension;
+namespace OmekaTwig\Extension;
 
 use Twig_Extension;
 use Interop\Container\ContainerInterface;
-use ZendTwig\Renderer\TwigRenderer;
+use OmekaTwig\Renderer\TwigRenderer;
 
 abstract class AbstractExtension extends Twig_Extension
 {
     /**
-     * @var \ZendTwig\Renderer\TwigRenderer
+     * @var \OmekaTwig\Renderer\TwigRenderer
      */
     protected $renderer;
 
@@ -20,7 +20,7 @@ abstract class AbstractExtension extends Twig_Extension
 
     /**
      * @param \Interop\Container\ContainerInterface $serviceManager
-     * @param \ZendTwig\Renderer\TwigRenderer       $renderer
+     * @param \OmekaTwig\Renderer\TwigRenderer       $renderer
      */
     public function __construct(ContainerInterface $serviceManager, TwigRenderer $renderer = null)
     {
@@ -29,7 +29,7 @@ abstract class AbstractExtension extends Twig_Extension
     }
 
     /**
-     * @return \ZendTwig\Renderer\TwigRenderer
+     * @return \OmekaTwig\Renderer\TwigRenderer
      */
     abstract public function getRenderer();
 

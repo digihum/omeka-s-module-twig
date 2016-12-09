@@ -1,18 +1,18 @@
-# ZendTwig module
+# OmekaTwig module
 
-The module configuration should be done in scope of ``` zend_twig ``` key. Default configuration is:
+The module configuration should be done in scope of ``` omeka_twig ``` key. Default configuration is:
 ```php
-    'zend_twig'       => [
+    'omeka_twig'       => [
         'force_standalone'    => true,
         'invoke_zend_helpers' => true,
         'environment'         => [
         ],
         'loader_chain'        => [
-            \ZendTwig\Loader\MapLoader::class,
-            \ZendTwig\Loader\StackLoader::class,
+            \OmekaTwig\Loader\MapLoader::class,
+            \OmekaTwig\Loader\StackLoader::class,
         ],
         'extensions'          => [
-            \ZendTwig\Extension\Extension::class,
+            \OmekaTwig\Extension\Extension::class,
         ],
         'helpers'             => [
             'configs' => [
@@ -32,14 +32,14 @@ This loaders will be added to the [Twig_Loader_Chain](http://twig.sensiolabs.org
 All loaders should be available from service manager.
 
 ## Key: extensions
-Developer can inject custom extensions into Twig. For new extension developer should extends his extension from ``` \ZendTwig\Extension\AbstractExtension ```
-and should be available from service manager by ``` \ZendTwig\Service\TwigExtensionFactory::class ```. Example is here: [Here](https://github.com/OxCom/zf3-twig/tree/master/docs/Extensions.md)
+Developer can inject custom extensions into Twig. For new extension developer should extends his extension from ``` \OmekaTwig\Extension\AbstractExtension ```
+and should be available from service manager by ``` \OmekaTwig\Service\TwigExtensionFactory::class ```. Example is here: [Here](https://github.com/OxCom/zf3-twig/tree/master/docs/Extensions.md)
 
 Please, read more info about [Twig Extensions](http://twig.sensiolabs.org/doc/advanced.html#creating-an-extension).
 
 ## Key: invoke_zend_helpers
 Developer can disable Zend View Helpers like docType, translate and e.t.c. Value: ``` true ``` or ``` false ```. Default: ``` true ```
-This is done with ``` \ZendTwig\View\FallbackFunction ```
+This is done with ``` \OmekaTwig\View\FallbackFunction ```
 
 ## Key: helpers
 Configuration for Zend View Helpers

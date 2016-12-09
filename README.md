@@ -1,17 +1,17 @@
-# ZendTwig module for Zend Framework 3
+# OmekaTwig module for Zend Framework 3
 [![codecov.io](https://codecov.io/github/OxCom/zf3-twig/coverage.svg?branch=master)](https://codecov.io/github/OxCom/zf3-twig?branch=master)
 [![Build Status](https://travis-ci.org/OxCom/zf3-twig.svg?branch=master)](https://travis-ci.org/OxCom/zf3-twig)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 
-ZendTwig is a module that integrates the [Twig](https://github.com/twigphp/Twig) template engine with [Zend Framework 3](https://github.com/zendframework/zendframework).
+OmekaTwig is a module that integrates the [Twig](https://github.com/twigphp/Twig) template engine with [Zend Framework 3](https://github.com/zendframework/zendframework).
 
 ## Thanks
 Thanks for [ZF-Common](https://github.com/ZF-Commons) for good ideas.
 
 ## Install
 
-1. Add ZendTwig lib with composer: ``` composer require oxcom/zend-twig ``` 
-2. Add ZendTwig to Your ``` config/application.config.php ``` file as module:
+1. Add OmekaTwig lib with composer: ``` composer require oxcom/zend-twig ``` 
+2. Add OmekaTwig to Your ``` config/application.config.php ``` file as module:
 ```php
     // Retrieve list of modules used in this application.
     'modules'                 => [
@@ -21,7 +21,7 @@ Thanks for [ZF-Common](https://github.com/ZF-Commons) for good ideas.
         'Zend\Mvc\I18n',
         'Application',
         // ...
-        'ZendTwig',
+        'OmekaTwig',
     ],
 ```
 
@@ -30,7 +30,7 @@ Thanks for [ZF-Common](https://github.com/ZF-Commons) for good ideas.
 [Here](https://github.com/OxCom/zf3-twig/tree/master/docs) You can find some examples, configurations and e.t.c. that, I hope, will help You do build Your application.
 Short list of available chapters:
 
-    1. ZendTwig module 
+    1. OmekaTwig module 
     2. Custom Twig Extensions
 
 ## Bugs and Issues

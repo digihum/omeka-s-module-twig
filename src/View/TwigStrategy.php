@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendTwig\View;
+namespace OmekaTwig\View;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\ListenerAggregateInterface;

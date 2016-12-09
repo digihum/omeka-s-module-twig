@@ -1,6 +1,6 @@
 <?php
 
-namespace ZendTwig\Test;
+namespace OmekaTwig\Test;
 
 use PHPUnit_Framework_TestCase as TestCase;
 

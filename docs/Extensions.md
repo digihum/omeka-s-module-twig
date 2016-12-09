@@ -3,12 +3,12 @@ Define Your new extensions for twig this ``` service_manager ``` configuration:
 ```php
     'service_manager' => [
         'factories' => [
-            \ZendTwig\Test\Fixture\Extension\InstanceOfExtension::class => \ZendTwig\Service\TwigExtensionFactory::class,
+            \OmekaTwig\Test\Fixture\Extension\InstanceOfExtension::class => \OmekaTwig\Service\TwigExtensionFactory::class,
         ],
     ],
-    'zend_twig'       => [
+    'omeka_twig'       => [
         'extensions' => [
-            \ZendTwig\Test\Fixture\Extension\InstanceOfExtension::class,
+            \OmekaTwig\Test\Fixture\Extension\InstanceOfExtension::class,
         ],
     ],
 ```
@@ -16,7 +16,7 @@ Define Your new extensions for twig this ``` service_manager ``` configuration:
 Extension class example:
 
 ```php
-    class NewExtension extends \ZendTwig\Extension\AbstractExtension
+    class NewExtension extends \OmekaTwig\Extension\AbstractExtension
     {
         /**
          * Common code for Twig Extensions

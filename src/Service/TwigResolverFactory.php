@@ -1,7 +1,7 @@
 <?php
-namespace ZendTwig\Service;
+namespace OmekaTwig\Service;
 
-use ZendTwig\Resolver\TwigResolver;
+use OmekaTwig\Resolver\TwigResolver;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;

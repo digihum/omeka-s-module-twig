@@ -1,15 +1,15 @@
 <?php
 
-namespace ZendTwig\Test\Extension;
+namespace OmekaTwig\Test\Extension;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Mvc\MvcEvent;
-use ZendTwig\Extension\Extension;
-use ZendTwig\Module;
-use ZendTwig\Test\Bootstrap;
-use ZendTwig\Test\Fixture\DummyClass;
-use ZendTwig\Test\Fixture\Extension\InstanceOfExtension;
-use ZendTwig\View\TwigStrategy;
+use OmekaTwig\Extension\Extension;
+use OmekaTwig\Module;
+use OmekaTwig\Test\Bootstrap;
+use OmekaTwig\Test\Fixture\DummyClass;
+use OmekaTwig\Test\Fixture\Extension\InstanceOfExtension;
+use OmekaTwig\View\TwigStrategy;
 
 class CustomExtensionTest extends TestCase
 {
@@ -21,7 +21,7 @@ class CustomExtensionTest extends TestCase
         ];
 
         /**
-         * @var \ZendTwig\Test\Fixture\Extension\InstanceOfExtension $extension
+         * @var \OmekaTwig\Test\Fixture\Extension\InstanceOfExtension $extension
          */
         $sm = Bootstrap::getInstance($config)->getServiceManager();
         $extension = $sm->get(InstanceOfExtension::class);
@@ -29,7 +29,7 @@ class CustomExtensionTest extends TestCase
         $exRender = $extension->getRenderer();
         $exSm     = $extension->getServiceManager();
 
-        $this->assertInstanceOf('\ZendTwig\Renderer\TwigRenderer', $exRender);
+        $this->assertInstanceOf('\OmekaTwig\Renderer\TwigRenderer', $exRender);
         $this->assertInstanceOf('\Interop\Container\ContainerInterface', $exSm);
         $this->assertSame($sm, $exSm);
     }
@@ -37,16 +37,16 @@ class CustomExtensionTest extends TestCase
     public function testExtensionConstruct()
     {
         /**
-         * @var \ZendTwig\Extension\Extension $extension
+         * @var \OmekaTwig\Extension\Extension $extension
          */
         $sm        = Bootstrap::getInstance()->getServiceManager();
-        $renderer  = $sm->get(\ZendTwig\Renderer\TwigRenderer::class);
+        $renderer  = $sm->get(\OmekaTwig\Renderer\TwigRenderer::class);
         $extension = new Extension($sm, $renderer);
 
         $exRender = $extension->getRenderer();
         $exSm     = $extension->getServiceManager();
 
-        $this->assertInstanceOf('\ZendTwig\Renderer\TwigRenderer', $exRender);
+        $this->assertInstanceOf('\OmekaTwig\Renderer\TwigRenderer', $exRender);
         $this->assertInstanceOf('\Interop\Container\ContainerInterface', $exSm);
 
         $this->assertSame($sm, $exSm);
@@ -114,7 +114,7 @@ class CustomExtensionTest extends TestCase
             [
                 [
                     'varClass' => new DummyClass(),
-                    'varInstance' => \ZendTwig\Module::class,
+                    'varInstance' => \OmekaTwig\Module::class,
                 ],
                 "<span>No</span>\n"
             ],

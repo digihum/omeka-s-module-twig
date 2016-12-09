@@ -1,17 +1,17 @@
 <?php
 
-namespace ZendTwig\Test\Loader;
+namespace OmekaTwig\Test\Loader;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use ZendTwig\Loader\MapLoader;
-use ZendTwig\Test\Bootstrap;
+use OmekaTwig\Loader\MapLoader;
+use OmekaTwig\Test\Bootstrap;
 
 class MapLoaderTest extends TestCase
 {
     public function testExists()
     {
         /**
-         * @var \ZendTwig\Loader\MapLoader $loader
+         * @var \OmekaTwig\Loader\MapLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(MapLoader::class);
@@ -29,7 +29,7 @@ class MapLoaderTest extends TestCase
     public function testAdd($layout, $path)
     {
         /**
-         * @var \ZendTwig\Loader\MapLoader $loader
+         * @var \OmekaTwig\Loader\MapLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(MapLoader::class);
@@ -59,7 +59,7 @@ class MapLoaderTest extends TestCase
     public function testAddEx()
     {
         /**
-         * @var \ZendTwig\Loader\MapLoader $loader
+         * @var \OmekaTwig\Loader\MapLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(MapLoader::class);
@@ -74,7 +74,7 @@ class MapLoaderTest extends TestCase
     public function testGetSource()
     {
         /**
-         * @var \ZendTwig\Loader\MapLoader $loader
+         * @var \OmekaTwig\Loader\MapLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(MapLoader::class);
@@ -92,7 +92,7 @@ class MapLoaderTest extends TestCase
     public function testGetSourceNotExistsMap()
     {
         /**
-         * @var \ZendTwig\Loader\MapLoader $loader
+         * @var \OmekaTwig\Loader\MapLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(MapLoader::class);
@@ -109,7 +109,7 @@ class MapLoaderTest extends TestCase
     public function testGetSourceNotExistsFile()
     {
         /**
-         * @var \ZendTwig\Loader\MapLoader $loader
+         * @var \OmekaTwig\Loader\MapLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(MapLoader::class);
@@ -124,7 +124,7 @@ class MapLoaderTest extends TestCase
     public function testIsFresh()
     {
         /**
-         * @var \ZendTwig\Loader\MapLoader $loader
+         * @var \OmekaTwig\Loader\MapLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(MapLoader::class);

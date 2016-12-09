@@ -1,21 +1,21 @@
 <?php
 
-use ZendTwig\Service\TwigLoaderFactory;
-use ZendTwig\Test\Fixture\Extension\InstanceOfExtension;
+use OmekaTwig\Service\TwigLoaderFactory;
+use OmekaTwig\Test\Fixture\Extension\InstanceOfExtension;
 
 return [
     'view_manager'    => [
         'template_path_stack'     => [
-            'ZendTwig' => __DIR__ . '/../../view/ZendTwig',
+            'OmekaTwig' => __DIR__ . '/../../view/OmekaTwig',
         ],
         'default_template_suffix' => TwigLoaderFactory::DEFAULT_SUFFIX,
     ],
     'service_manager' => [
         'factories' => [
-            InstanceOfExtension::class => \ZendTwig\Service\TwigExtensionFactory::class,
+            InstanceOfExtension::class => \OmekaTwig\Service\TwigExtensionFactory::class,
         ],
     ],
-    'zend_twig'       => [
+    'omeka_twig'       => [
         'extensions' => [
             InstanceOfExtension::class,
         ],

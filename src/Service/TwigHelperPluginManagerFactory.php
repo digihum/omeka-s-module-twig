@@ -1,14 +1,14 @@
 <?php
 
-namespace ZendTwig\Service;
+namespace OmekaTwig\Service;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\ConfigInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Exception;
-use ZendTwig\Module;
-use ZendTwig\View\HelperPluginManager;
+use OmekaTwig\Module;
+use OmekaTwig\View\HelperPluginManager;
 
 class TwigHelperPluginManagerFactory implements FactoryInterface
 {

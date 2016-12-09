@@ -3,11 +3,11 @@
 return [
     'view_manager' => [
         'template_path_stack'     => [
-            'ZendTwig' => __DIR__ . '/../../view/ZendTwig',
+            'OmekaTwig' => __DIR__ . '/../../view/OmekaTwig',
         ],
-        'default_template_suffix' => \ZendTwig\Service\TwigLoaderFactory::DEFAULT_SUFFIX,
+        'default_template_suffix' => \OmekaTwig\Service\TwigLoaderFactory::DEFAULT_SUFFIX,
     ],
-    'zend_twig'       => [
+    'omeka_twig'       => [
         'extensions'   => [
             null,
         ],

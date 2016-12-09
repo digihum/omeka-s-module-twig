@@ -12,7 +12,7 @@ return [
         'Zend\Validator',
         'Zend\I18n',
         'Zend\Mvc\I18n',
-        'ZendTwig',
+        'OmekaTwig',
     ],
 
     // These are various options for the listeners attached to the ModuleManager

@@ -1,14 +1,14 @@
 <?php
 
-namespace ZendTwig\Test\View;
+namespace OmekaTwig\Test\View;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Strategy\PhpRendererStrategy;
 use Zend\View\ViewEvent;
-use ZendTwig\Renderer\TwigRenderer;
-use ZendTwig\Test\Bootstrap;
-use ZendTwig\View\TwigStrategy;
+use OmekaTwig\Renderer\TwigRenderer;
+use OmekaTwig\Test\Bootstrap;
+use OmekaTwig\View\TwigStrategy;
 
 class TwigStrategyTest extends TestCase
 {
@@ -28,7 +28,7 @@ class TwigStrategyTest extends TestCase
         $event->setModel($model);
 
         /**
-         * @var \ZendTwig\View\TwigStrategy $strategy
+         * @var \OmekaTwig\View\TwigStrategy $strategy
          */
         $sm       = Bootstrap::getInstance()->getServiceManager();
         $strategy = $sm->get(TwigStrategy::class);

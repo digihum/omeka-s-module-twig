@@ -1,5 +1,5 @@
 <?php
-namespace ZendTwig\Resolver;
+namespace OmekaTwig\Resolver;
 
 use Twig_Environment;
 

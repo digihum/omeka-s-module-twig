@@ -1,5 +1,5 @@
 <?php
-namespace ZendTwig;
+namespace OmekaTwig;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -8,12 +8,12 @@ use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\View\Exception\InvalidArgumentException;
-use ZendTwig\Renderer\TwigRenderer;
+use OmekaTwig\Renderer\TwigRenderer;
 use Zend\Mvc\MvcEvent;
 
 class Module extends AbstractModule
 {
-    const MODULE_NAME = 'zend_twig';
+    const MODULE_NAME = 'omeka_twig';
 
     public function onBootstrap(MvcEvent $e)
     {

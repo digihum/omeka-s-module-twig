@@ -10,8 +10,8 @@
         convertWarningsToExceptions="true"
         colors="true">
     <testsuites>
-        <testsuite name="ZendTwig">
-            <directory suffix="Test.php">ZendTwig/</directory>
+        <testsuite name="OmekaTwig">
+            <directory suffix="Test.php">OmekaTwig/</directory>
         </testsuite>
     </testsuites>
     <filter>

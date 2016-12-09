@@ -1,18 +1,18 @@
 <?php
 
-namespace ZendTwig\Test\Loader;
+namespace OmekaTwig\Test\Loader;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use ZendTwig\Loader\StackLoader;
-use ZendTwig\Service\TwigLoaderFactory;
-use ZendTwig\Test\Bootstrap;
+use OmekaTwig\Loader\StackLoader;
+use OmekaTwig\Service\TwigLoaderFactory;
+use OmekaTwig\Test\Bootstrap;
 
 class StackLoaderTest extends TestCase
 {
     public function testGetSuffix()
     {
         /**
-         * @var \ZendTwig\Loader\StackLoader $loader
+         * @var \OmekaTwig\Loader\StackLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(StackLoader::class);
@@ -23,7 +23,7 @@ class StackLoaderTest extends TestCase
     public function testSetSuffix()
     {
         /**
-         * @var \ZendTwig\Loader\StackLoader $loader
+         * @var \OmekaTwig\Loader\StackLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(StackLoader::class);
@@ -47,7 +47,7 @@ class StackLoaderTest extends TestCase
     public function testFindTemplateExNoTemplate()
     {
         /**
-         * @var \ZendTwig\Loader\StackLoader $loader
+         * @var \OmekaTwig\Loader\StackLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(StackLoader::class);
@@ -58,7 +58,7 @@ class StackLoaderTest extends TestCase
     public function testFindTemplateNoExNoTemplate()
     {
         /**
-         * @var \ZendTwig\Loader\StackLoader $loader
+         * @var \OmekaTwig\Loader\StackLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(StackLoader::class);
@@ -78,7 +78,7 @@ class StackLoaderTest extends TestCase
     public function testFindTemplateExNamespace()
     {
         /**
-         * @var \ZendTwig\Loader\StackLoader $loader
+         * @var \OmekaTwig\Loader\StackLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(StackLoader::class);
@@ -89,7 +89,7 @@ class StackLoaderTest extends TestCase
     public function testFindTemplateNoExNamespace()
     {
         /**
-         * @var \ZendTwig\Loader\StackLoader $loader
+         * @var \OmekaTwig\Loader\StackLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(StackLoader::class);
@@ -105,7 +105,7 @@ class StackLoaderTest extends TestCase
     public function testFindTemplate()
     {
         /**
-         * @var \ZendTwig\Loader\StackLoader $loader
+         * @var \OmekaTwig\Loader\StackLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(StackLoader::class);
@@ -117,7 +117,7 @@ class StackLoaderTest extends TestCase
     public function testFindTemplateCache()
     {
         /**
-         * @var \ZendTwig\Loader\StackLoader $loader
+         * @var \OmekaTwig\Loader\StackLoader $loader
          */
         $sm     = Bootstrap::getInstance()->getServiceManager();
         $loader = $sm->get(StackLoader::class);

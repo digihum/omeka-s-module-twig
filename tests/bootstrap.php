@@ -1,5 +1,5 @@
 <?php
-namespace ZendTwig\Test;
+namespace OmekaTwig\Test;
 
 use Zend\Mvc\Service\ServiceManagerConfig;
 use Zend\ServiceManager\ServiceManager;

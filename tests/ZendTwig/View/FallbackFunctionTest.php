@@ -1,15 +1,15 @@
 <?php
 
-namespace ZendTwig\Test\View;
+namespace OmekaTwig\Test\View;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Server\Reflection\ReflectionClass;
 use Zend\View\Renderer\PhpRenderer;
 use Zend\View\Strategy\PhpRendererStrategy;
 use Zend\View\ViewEvent;
-use ZendTwig\Renderer\TwigRenderer;
-use ZendTwig\Test\Bootstrap;
-use ZendTwig\View\TwigStrategy;
+use OmekaTwig\Renderer\TwigRenderer;
+use OmekaTwig\Test\Bootstrap;
+use OmekaTwig\View\TwigStrategy;
 
 class FallbackFunctionTest extends TestCase
 {
