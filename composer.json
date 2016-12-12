@@ -1,6 +1,6 @@
 {
-    "name": "oxcom/zend-twig",
-    "description": "OmekaTwig is a module that integrates the Twig templating engine with Zend Framework 3.",
+    "name": "digihum/omeka-twig",
+    "description": "Adds the twig templating language to Omeka-S",
     "type": "library",
     "require": {
         "php": ">=5.6.0",
@@ -13,27 +13,14 @@
     },
     "autoload-dev": {
         "classmap": [
-            "src/",
-            "tests/"
+            "src/"
         ]
-    },
-    "require-dev": {
-        "zendframework/zendframework": "^3.0",
-        "phpunit/phpunit": "^5.6",
-        "squizlabs/php_codesniffer": "^2.7"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": "OxCom",
-            "email": "lancer.oxcom@gmail.com"
+            "name": "Tim Hollies",
+            "email": "tim.hollies@warwick.ac.uk"
         }
-    ],
-    "scripts": {
-        "test": [
-            "composer install",
-            "./vendor/bin/phpcs --standard=psr2 src/ tests/OmekaTwig/ tests/Fixture/",
-            "./vendor/bin/phpunit -c tests/"
-        ]
-    }
+    ]
 }

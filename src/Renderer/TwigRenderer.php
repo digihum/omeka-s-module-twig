@@ -207,7 +207,9 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
                  * @var \Zend\View\Model\ViewModel $child
                  * @var \Twig_Template             $template
                  */
-               // $result = $this->render($child, $values);
+ 
+                // The child template might not be a twig template (e.g. it might be a default Omeka template)
+                // So look for a renderer that can render the inner template.
 
                 $event   = new ViewEvent();
                 $event->setTarget($this);

@@ -21,7 +21,6 @@ class TwigStrategyFactory implements FactoryInterface
          * @var \OmekaTwig\Renderer\TwigRenderer $renderer
          * @var \Zend\View\View $view
          */
-        //$renderer = $container->get('OmekaTwig\Renderer\TwigRenderer');
         $strategy = new TwigStrategy();
 
         return $strategy;

@@ -25,11 +25,6 @@ class TwigStrategy extends AbstractListenerAggregate
         $this->renderer = NULL;
     }
 
-    // public function __construct(RendererInterface $renderer)
-    // {
-    //     $this->renderer = $renderer;
-    // }
-
     /**
      * Attach one or more listeners
      *
@@ -45,29 +40,12 @@ class TwigStrategy extends AbstractListenerAggregate
     {
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RENDERER, [$this, 'selectRender'], $priority);
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RESPONSE, [$this, 'injectResponse'], $priority);
-        // $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE,
-        //     [$this, 'pathsUpdated'], -10000
-        // );
     }
 
     public function setRenderer(RendererInterface $renderer)
     {
         $this->renderer = $renderer;
     }
-
-    /**
-     * @param \Zend\View\ViewEvent $e
-     *
-     * @return \Zend\View\Renderer\RendererInterface
-     */
-    // public function pathsUpdated(MvcEvent $event)
-    // {
-    //     $services = $event->getApplication()->getServiceManager();
-    //     $paths = $services->get('ViewTemplatePathStack')->getPaths()->toArray();
-    //     $loader = $services->get('Twig_Loader_Chain');
-    //     $this->renderer->setLoader($loader);
-    // }
-
 
     /**
      * @param \Zend\View\ViewEvent $e
