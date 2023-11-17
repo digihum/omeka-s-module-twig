@@ -1,7 +1,7 @@
 {
     "name": "digihum/omeka-twig",
     "description": "Adds the twig templating language to Omeka-S",
-    "type": "library",
+    "type": "omeka-s-module",
     "require": {
         "php": ">=5.6.0",
         "twig/twig": "^1.28"
@@ -20,7 +20,13 @@
     "authors": [
         {
             "name": "Tim Hollies",
-            "email": "tim.hollies@warwick.ac.uk"
+            "email": "tim.hollies@warwick.ac.uk",
+            "role": "Primary developer"
+        },
+        {
+            "name": "Steve Ranford",
+            "email": "steve.ranford@warwick.ac.uk",
+            "role": "Maintainer"
         }
     ]
 }
