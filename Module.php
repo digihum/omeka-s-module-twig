@@ -1,41 +1,51 @@
 <?php
 namespace ThemeTwig;
 
-require __DIR__ . '/vendor/autoload.php';
-
+use Omeka\Module\AbstractModule;
 use Twig\Environment;
 use Laminas\EventManager\EventInterface;
+use Laminas\ModuleManager\Feature\BootstrapListenerInterface;
+use Laminas\ModuleManager\Feature\ConfigProviderInterface;
 use Laminas\View\Exception\InvalidArgumentException;
 use ThemeTwig\Renderer\TwigRenderer;
-use Laminas\Mvc\MvcEvent;
-use \Omeka\Module\AbstractModule;
+use Laminas\ModuleManager\ModuleManager;
 
-class Module extends AbstractModule 
+class Module extends AbstractModule implements ConfigProviderInterface, BootstrapListenerInterface
 {
     const MODULE_NAME = 'theme_twig';
 
+    /**
+     * Listen to the bootstrap event
+     *
+     * @param \Laminas\Mvc\MvcEvent|EventInterface $e
+     *
+     * @return array|void
+     */
 
-    public function onBootstrap(MvcEvent $e)
+     public function init(ModuleManager $moduleManager): void
+     {
+         require_once __DIR__ . '/vendor/autoload.php';
+     }
+ 
+    public function onBootstrap(EventInterface $e)
     {
-        $app       = $e->getApplication();
-        $container = $app->getServiceManager();
+        
+        $services = $e->getApplication()->getServiceManager();
+        $config = $services->get('Config');
 
-        //$currentTheme =  $container->get('Omeka\Site\ThemeManager')->getTheme('freedom');
-        // Add the theme view templates to the path stack.
-        //echo "<pre>Hello theme:";
-        //print_r($container->get('Omeka\Site\ThemeManager'));
-        $container->get('ViewTemplatePathStack')->addPath("/opt/omeka-s/build/html/modules/ZoteroImport/view/");
-        //echo "</pre>";
+        //$services->get('ViewTemplatePathStack')->addPath("/opt/omeka-s/build/html/themes/freedom/view/");
+
+
 
         /**
          * @var Environment $env
          */
-        $config      = $container->get('Configuration');
-        $env         = $container->get(Environment::class);
+        $config      = $services->get('Configuration');
+        $env         = $services->get(Environment::class);
         $name        = static::MODULE_NAME;
         $options     = $envOptions = empty($config[$name]) ? [] : $config[$name];
         $extensions  = empty($options['extensions']) ? [] : $options['extensions'];
-        $renderer    = $container->get(TwigRenderer::class);
+        $renderer    = $services->get(TwigRenderer::class);
 
         // Setup extensions
         foreach ($extensions as $extension) {
@@ -43,10 +53,10 @@ class Module extends AbstractModule
             if (empty($extension)) {
                 continue;
             } elseif (is_string($extension)) {
-                if ($container->has($extension)) {
-                    $extension = $container->get($extension);
+                if ($services->has($extension)) {
+                    $extension = $services->get($extension);
                 } else {
-                    $extension = new $extension($container, $renderer);
+                    $extension = new $extension($services, $renderer);
                 }
             } elseif (!is_object($extension)) {
                 throw new InvalidArgumentException('Extensions should be a string or object.');
@@ -60,7 +70,6 @@ class Module extends AbstractModule
         return;
     }
 
-    
     /**
      * Returns configuration to merge with application configuration
      *
