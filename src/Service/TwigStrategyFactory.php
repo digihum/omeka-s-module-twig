@@ -1,10 +1,12 @@
 <?php
-namespace OmekaTwig\Service;
+namespace ThemeTwig\Service;
 
-use Zend\ServiceManager\Factory\FactoryInterface;
+use ThemeTwig\Module;
+use ThemeTwig\Renderer\TwigRenderer;
+use ThemeTwig\View\TwigStrategy;
+
 use Interop\Container\ContainerInterface;
-use Zend\View\Strategy\PhpRendererStrategy;
-use OmekaTwig\View\TwigStrategy;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class TwigStrategyFactory implements FactoryInterface
 {
@@ -15,13 +17,20 @@ class TwigStrategyFactory implements FactoryInterface
      *
      * @return TwigStrategy
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : TwigStrategy
     {
+        $config      = $container->get('Configuration');
+        $name        = Module::MODULE_NAME;
+        $options     = $envOptions = empty($config[$name]) ? [] : $config[$name];
+
         /**
-         * @var \OmekaTwig\Renderer\TwigRenderer $renderer
-         * @var \Zend\View\View $view
+         * @var \ZendTwig\Renderer\TwigRenderer $renderer
          */
-        $strategy = new TwigStrategy();
+        $renderer = $container->get(TwigRenderer::class);
+        $strategy = new TwigStrategy($renderer);
+
+        $forceStrategy = !empty($options['force_twig_strategy']);
+        $strategy->setForceRender($forceStrategy);
 
         return $strategy;
     }

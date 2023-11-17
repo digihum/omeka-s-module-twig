@@ -1,24 +1,26 @@
 <?php
-namespace OmekaTwig\Resolver;
+namespace ThemeTwig\Resolver;
 
-use Twig_Environment;
+use Twig\Environment;
 
-use Zend\View\Resolver\ResolverInterface;
-use Zend\View\Renderer\RendererInterface as Renderer;
+use Twig\Template;
+use Twig\TemplateWrapper;
+use Laminas\View\Resolver\ResolverInterface;
+use Laminas\View\Renderer\RendererInterface as Renderer;
 
 class TwigResolver implements ResolverInterface
 {
     /**
-     * @var Twig_Environment
+     * @var Environment
      */
     protected $environment;
 
     /**
      * Constructor.
      *
-     * @param Twig_Environment $environment
+     * @param Environment $environment
      */
-    public function __construct(Twig_Environment $environment = null)
+    public function __construct(Environment $environment = null)
     {
         $this->environment = $environment;
     }
@@ -29,11 +31,10 @@ class TwigResolver implements ResolverInterface
      * @param  string        $name
      * @param  null|Renderer $renderer
      *
-     * @return string
+     * @return TemplateWrapper|Template
      */
     public function resolve($name, Renderer $renderer = null)
     {
-        return $this->environment
-                    ->resolveTemplate($name);
+        return $this->environment->resolveTemplate($name);
     }
 }

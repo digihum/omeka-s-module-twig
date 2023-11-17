@@ -1,28 +1,40 @@
 <?php
 
-namespace OmekaTwig\View;
+namespace ThemeTwig\View;
 
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\ListenerAggregateInterface;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\ListenerAggregateTrait;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\ViewEvent;
-use Zend\Mvc\MvcEvent;
-use Zend\EventManager\EventManager;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\ListenerAggregateInterface;
+use Laminas\EventManager\ListenerAggregateTrait;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\ViewEvent;
 
-class TwigStrategy extends AbstractListenerAggregate
+/**
+ * Class TwigStrategy
+ *
+ * @package ZendTwig\View
+ */
+class TwigStrategy implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
 
     /**
-     * @var \Zend\View\Renderer\RendererInterface
+     * @var \Laminas\View\Renderer\RendererInterface
      */
     protected $renderer;
 
-    public function __construct()
+    /**
+     * @var bool
+     */
+    protected $forceRender = false;
+
+    /**
+     * TwigStrategy constructor.
+     *
+     * @param \Laminas\View\Renderer\RendererInterface $renderer
+     */
+    public function __construct(RendererInterface $renderer)
     {
-        $this->renderer = NULL;
+        $this->renderer = $renderer;
     }
 
     /**
@@ -42,33 +54,31 @@ class TwigStrategy extends AbstractListenerAggregate
         $this->listeners[] = $events->attach(ViewEvent::EVENT_RESPONSE, [$this, 'injectResponse'], $priority);
     }
 
-    public function setRenderer(RendererInterface $renderer)
-    {
-        $this->renderer = $renderer;
-    }
-
     /**
-     * @param \Zend\View\ViewEvent $e
+     * @param \Laminas\View\ViewEvent $e
      *
-     * @return \Zend\View\Renderer\RendererInterface
+     * @return \Laminas\View\Renderer\RendererInterface|null
      */
     public function selectRender(ViewEvent $e)
     {
-        if($this->renderer !== NULL && $this->renderer->canRender($e->getModel()->getTemplate())) {
-            $eventManager = $e->getTarget()->getEventManager();
-            $this->renderer->setEventManager($eventManager);
+        if ($this->isForceRender()) {
             return $this->renderer;
-        } else {
-            return NULL;
-        }   
+        }
+
+        $model = $e->getModel();
+        if ($model instanceof TwigModel) {
+            return $this->renderer;
+        }
+
+        return null;
     }
 
     /**
-     * @param \Zend\View\ViewEvent $e
+     * @param \Laminas\View\ViewEvent $e
      */
     public function injectResponse(ViewEvent $e)
     {
-        if ($this->renderer === NULL || $this->renderer !== $e->getRenderer()) {
+        if ($this->renderer !== $e->getRenderer()) {
             return;
         }
 
@@ -76,5 +86,25 @@ class TwigStrategy extends AbstractListenerAggregate
         $response = $e->getResponse();
 
         $response->setContent($result);
+    }
+
+    /**
+     * @param bool $forceRender
+     *
+     * @return TwigStrategy
+     */
+    public function setForceRender(bool $forceRender) : TwigStrategy
+    {
+        $this->forceRender = $forceRender;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForceRender() : bool
+    {
+        return $this->forceRender;
     }
 }

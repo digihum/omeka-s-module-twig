@@ -1,12 +1,12 @@
 <?php
 
-namespace OmekaTwig\Service;
+namespace ThemeTwig\Service;
 
-use OmekaTwig\Loader\StackLoader;
-use OmekaTwig\Module;
+use ThemeTwig\Loader\StackLoader;
+use ThemeTwig\Module;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class TwigStackLoaderFactory implements FactoryInterface
 {
@@ -15,18 +15,20 @@ class TwigStackLoaderFactory implements FactoryInterface
      * @param string             $requestedName
      * @param array|null         $options
      *
-     * @return \OmekaTwig\Loader\StackLoader
+     * @return \ThemeTwig\Loader\StackLoader
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : StackLoader
     {
         $config  = $container->get('Configuration');
         $name    = Module::MODULE_NAME;
         $options = $envOptions = empty($config[$name]) ? [] : $config[$name];
         $suffix  = empty($options['suffix']) ? TwigLoaderFactory::DEFAULT_SUFFIX : $options['suffix'];
 
-        /** @var \Zend\View\Resolver\TemplatePathStack $zfStack */
+        /** @var \Laminas\View\Resolver\TemplatePathStack $zfStack */
         $zfStack = $container->get('ViewTemplatePathStack');
-
+        echo "<pre>";
+        //print_r($zfStack);
+        echo "</pre>";
         $loader = new StackLoader($zfStack->getPaths()->toArray());
         $loader->setSuffix($suffix);
 

@@ -1,49 +1,45 @@
 <?php
 
-namespace OmekaTwig\Renderer;
+namespace ThemeTwig\Renderer;
 
-use Twig_Environment;
-use Twig_Loader_Chain;
+use Twig\Environment;
 
-use OmekaTwig\Resolver\TwigResolver;
-use OmekaTwig\View\HelperPluginManager as TwigHelperPluginManager;
+use Twig\Loader\ChainLoader;
+use Laminas\View\Exception\RuntimeException;
+use Laminas\View\Helper\ViewModel;
+use ThemeTwig\Resolver\TwigResolver;
+use ThemeTwig\View\HelperPluginManager as TwigHelperPluginManager;
 
-use Zend\View\Exception\DomainException;
-use Zend\View\Exception\InvalidArgumentException;
-use Zend\View\Helper\AbstractHelper;
-use Zend\View\HelperPluginManager as ZendHelperPluginManager;
-use Zend\View\Model\ModelInterface;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Renderer\TreeRendererInterface;
-use Zend\View\Resolver\ResolverInterface;
-use Zend\View\View;
-use Zend\View\ViewEvent;
+use Laminas\View\Exception\DomainException;
+use Laminas\View\Exception\InvalidArgumentException;
+use Laminas\View\Helper\AbstractHelper;
+use Laminas\View\HelperPluginManager as ZendHelperPluginManager;
+use Laminas\View\Model\ModelInterface;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Renderer\TreeRendererInterface;
+use Laminas\View\Resolver\ResolverInterface;
+use Laminas\View\View;
+use ThemeTwig\View\TwigModel;
 
-use Zend\EventManager\EventManager;
-
-use Zend\View\Renderer\PhpRenderer;
-
-use Zend\View\Renderer\RendererInterface as ZendRenderer;
 
 class TwigRenderer implements RendererInterface, TreeRendererInterface
 {
     /**
      * @var bool
      */
-    protected $canRenderTrees = true;
 
     /**
-     * @var Twig_Environment
+     * @var Environment
      */
     protected $environment;
 
     /**
-     * @var Twig_Loader_Chain
+     * @var ChainLoader
      */
     protected $loader;
 
     /**
-     * @var \Zend\View\View
+     * @var \Laminas\View\View
      */
     protected $view;
 
@@ -66,8 +62,6 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      */
     private $zendHelpers;
 
-    private $eventManager;
-
     /**
      * Force \Zend\View\Model\ViewModel::$terminate to true
      * @var bool
@@ -75,20 +69,16 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     protected $forceStandalone = false;
 
     /**
-     * @param \Zend\View\View   $view
-     * @param Twig_Environment  $env
+     * @param \Laminas\View\View   $view
+     * @param Environment  $env
      * @param ResolverInterface $resolver
      */
-    public function __construct(View $view, Twig_Environment $env = null, ResolverInterface $resolver = null)
+    public function __construct(View $view, Environment $env = null, ResolverInterface $resolver = null)
     {
         $this->setView($view)
              ->setEnvironment($env)
              ->setLoader($env->getLoader())
              ->setResolver($resolver);
-    }
-
-    public function setEventManager(EventManager $eventManager) {
-        $this->eventManager = $eventManager;
     }
 
     /**
@@ -146,7 +136,7 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      *
      * @return mixed
      */
-    public function getEngine()
+    public function getEngine() : TwigRenderer
     {
         return $this;
     }
@@ -159,7 +149,7 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      *
      * @return string The script output.
      */
-    public function render($nameOrModel, $values = null)
+    public function render($nameOrModel, $values = null) : string
     {
         $model = $nameOrModel;
         if ($model instanceof ModelInterface) {
@@ -183,55 +173,39 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
             }
 
             // Give view model awareness via ViewModel helper
-            $helper = $this->plugin('view_model');
+            $helper = $this->plugin(ViewModel::class);
             $helper->setCurrent($model);
 
             $values = $model->getVariables();
         }
 
         if (!$this->canRender($nameOrModel)) {
-            throw new \Zend\View\Exception\RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 '%s: Unable to render template "%s"; resolver could not resolve to a file',
                 __METHOD__,
                 $nameOrModel
             ));
         }
 
-        if ($model instanceof ModelInterface && $model->hasChildren() && $this->canRenderTrees()) {
+        if ($model instanceof ModelInterface && $model->hasChildren() && $this->canRenderTrees($model)) {
             if (!isset($values[$model->captureTo()])) {
                 $values[$model->captureTo()] = '';
             }
 
             foreach ($model->getChildren() as $child) {
                 /**
-                 * @var \Zend\View\Model\ViewModel $child
-                 * @var \Twig_Template             $template
+                 * @var \Laminas\View\Model\ViewModel $child
+                 * @var \Twig\Template             $template
                  */
- 
-                // The child template might not be a twig template (e.g. it might be a default Omeka template)
-                // So look for a renderer that can render the inner template.
-
-                $event   = new ViewEvent();
-                $event->setTarget($this);
-                $event->setModel($child);
-                $event->setName(ViewEvent::EVENT_RENDERER);
-                $events  = $this->eventManager;
-                $results = $events->triggerEventUntil(function ($result) {
-                    return ($result instanceof ZendRenderer);
-                }, $event);
-                $renderer = $results->last();
-                if (!$renderer instanceof ZendRenderer) {
-                    throw new Exception\RuntimeException(sprintf(
-                        '%s: no renderer selected!',
-                        __METHOD__
-                    ));
+                try {
+                    $result = $this->render($child, $values);
+                } catch (RuntimeException $e) {
+                    continue;
                 }
-     
-                $result = $renderer->render($child);
 
-                // if ($this->isForceStandalone() || $child->terminate()) {
-                //     return $result;
-                // }
+                if ($this->isForceStandalone() || $child->terminate()) {
+                    return $result;
+                }
 
                 $child->setOption('has_parent', true);
 
@@ -265,11 +239,17 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     /**
      * Indicate whether the renderer is capable of rendering trees of view models
      *
+     * @param mixed $model
+     *
      * @return bool
      */
-    public function canRenderTrees()
+    public function canRenderTrees($model = null)
     {
-        return $this->canRenderTrees;
+        if (!empty($model) && $model instanceof TwigModel) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -277,15 +257,12 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      *
      * @return TwigRenderer
      */
-    public function setCanRenderTrees($canRenderTrees)
-    {
-        $this->canRenderTrees = !!$canRenderTrees;
-
-        return $this;
-    }
-
+   
     /**
      * @return \Zend\View\View
+     */
+  /**
+     * @return \Laminas\View\View
      */
     public function getView()
     {
@@ -293,11 +270,11 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     }
 
     /**
-     * @param \Zend\View\View $view
+     * @param \Laminas\View\View $view
      *
      * @return TwigRenderer
      */
-    public function setView(View $view)
+    public function setView(View $view) : TwigRenderer
     {
         $this->view = $view;
 
@@ -306,14 +283,15 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
         return $this;
     }
 
+
     /**
-     * @return Twig_Environment
+     * @return Environment
      */
-    public function getEnvironment()
+    public function getEnvironment() : Environment
     {
-        if (!$this->environment instanceof Twig_Environment) {
+        if (!$this->environment instanceof Environment) {
             throw new InvalidArgumentException(sprintf(
-                'Twig environment must be Twig_Environment; got type "%s" instead',
+                'Twig environment must be \Twig\Environment; got type "%s" instead',
                 (is_object($this->loader) ? get_class($this->loader) : gettype($this->loader))
             ));
         }
@@ -321,12 +299,13 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
         return $this->environment;
     }
 
+
     /**
-     * @param Twig_Environment $environment
+     * @param Environment $environment
      *
      * @return TwigRenderer
      */
-    public function setEnvironment($environment)
+    public function setEnvironment($environment) : TwigRenderer
     {
         $this->environment = $environment;
 
@@ -334,26 +313,27 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     }
 
     /**
-     * @return Twig_Loader_Chain
+     * @return ChainLoader
      */
-    public function getLoader()
+    public function getLoader() : ChainLoader
     {
-        if (!$this->loader instanceof Twig_Loader_Chain) {
+        if (!$this->loader instanceof ChainLoader) {
             throw new InvalidArgumentException(sprintf(
-                'Twig loader must implement Twig_Loader_Chain; got type "%s" instead',
+                'Twig loader must implement \Twig\Loader\ChainLoader; got type "%s" instead',
                 (is_object($this->loader) ? get_class($this->loader) : gettype($this->loader))
             ));
         }
-
+        
         return $this->loader;
     }
 
+
     /**
-     * @param Twig_Loader_Chain $loader
+     * @param \Twig\Loader\LoaderInterface $loader
      *
      * @return TwigRenderer
      */
-    public function setLoader($loader)
+    public function setLoader($loader) : TwigRenderer
     {
         $this->loader = $loader;
 
@@ -363,7 +343,7 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     /**
      * @return TwigResolver
      */
-    public function getResolver()
+    public function getResolver() : TwigResolver
     {
         return $this->resolver;
     }
@@ -373,7 +353,7 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      *
      * @return TwigRenderer
      */
-    public function setResolver(ResolverInterface $resolver = null)
+    public function setResolver(ResolverInterface $resolver = null) : TwigRenderer
     {
         $this->resolver = $resolver;
 
@@ -383,7 +363,7 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
     /**
      * @return TwigHelperPluginManager
      */
-    public function getTwigHelpers()
+    public function getTwigHelpers() : TwigHelperPluginManager
     {
         return $this->twigHelpers;
     }
@@ -393,15 +373,25 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      *
      * @return TwigRenderer
      */
-    public function setTwigHelpers($twigHelpers)
+    public function setTwigHelpers($twigHelpers) : TwigRenderer
     {
         $this->twigHelpers = $twigHelpers;
 
         return $this;
     }
 
+
     /**
-     * @return ZendHelperPluginManager
+     * @return \Laminas\View\HelperPluginManager
+     */
+    public function getHelperPluginManager() : ZendHelperPluginManager
+    {
+        return $this->zendHelpers;
+    }
+
+
+    /**
+     * @return 
      */
     public function getZendHelpers()
     {
@@ -415,7 +405,7 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      *
      * @return TwigRenderer
      */
-    public function setZendHelpers($helpers)
+    public function setZendHelpers(ZendHelperPluginManager $helpers) : TwigRenderer
     {
         $this->zendHelpers = $helpers;
 
@@ -426,16 +416,16 @@ class TwigRenderer implements RendererInterface, TreeRendererInterface
      * @param boolean $forceStandalone
      * @return TwigRenderer
      */
-    public function setForceStandalone($forceStandalone)
+    public function setForceStandalone($forceStandalone) : TwigRenderer
     {
         $this->forceStandalone = !!$forceStandalone;
         return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isForceStandalone()
+    public function isForceStandalone() : bool
     {
         return $this->forceStandalone;
     }

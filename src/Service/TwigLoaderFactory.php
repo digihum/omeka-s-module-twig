@@ -1,14 +1,12 @@
 <?php
-namespace OmekaTwig\Service;
+namespace ThemeTwig\Service;
 
-use Twig_Environment;
-use Twig_Loader_Chain;
-use OmekaTwig\Module;
+use Twig\Loader\ChainLoader;
+use ThemeTwig\Module;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Exception\InvalidArgumentException;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\View\Exception\InvalidArgumentException;
 
 class TwigLoaderFactory implements FactoryInterface
 {
@@ -19,15 +17,15 @@ class TwigLoaderFactory implements FactoryInterface
      * @param string             $requestedName
      * @param array|null         $options
      *
-     * @return Twig_Loader_Chain
+     * @return ChainLoader
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : ChainLoader
     {
         $config  = $container->get('Configuration');
         $name    = Module::MODULE_NAME;
         $options = $envOptions = empty($config[$name]) ? [] : $config[$name];
         $list    = empty($options['loader_chain']) ? [] : $options['loader_chain'];
-        $chain   = new Twig_Loader_Chain();
+        $chain   = new ChainLoader();
 
         foreach ($list as $loader) {
             if (!is_string($loader) || !$container->has($loader)) {

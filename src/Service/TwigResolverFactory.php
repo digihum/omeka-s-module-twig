@@ -1,11 +1,12 @@
 <?php
-namespace OmekaTwig\Service;
+namespace ThemeTwig\Service;
 
-use OmekaTwig\Resolver\TwigResolver;
+use Twig\Environment;
+
+use ThemeTwig\Resolver\TwigResolver;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class TwigResolverFactory implements FactoryInterface
 {
@@ -16,8 +17,8 @@ class TwigResolverFactory implements FactoryInterface
      *
      * @return TwigResolver
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : TwigResolver
     {
-        return new TwigResolver($container->get('Twig_Environment'));
+        return new TwigResolver($container->get(Environment::class));
     }
 }

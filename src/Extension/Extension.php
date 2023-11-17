@@ -1,11 +1,11 @@
 <?php
 
-namespace OmekaTwig\Extension;
+namespace ThemeTwig\Extension;
 
 class Extension extends AbstractExtension
 {
     /**
-     * @return \OmekaTwig\Renderer\TwigRenderer
+     * @return \ThemeTwig\Renderer\TwigRenderer
      */
     public function getRenderer()
     {

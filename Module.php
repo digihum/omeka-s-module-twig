@@ -1,44 +1,37 @@
 <?php
-namespace OmekaTwig;
+namespace ThemeTwig;
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Omeka\Module\AbstractModule;
-use Zend\EventManager\EventInterface;
-use Zend\ModuleManager\Feature\BootstrapListenerInterface;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
-use Zend\View\Exception\InvalidArgumentException;
-use OmekaTwig\Renderer\TwigRenderer;
-use Zend\Mvc\MvcEvent;
+use Twig\Environment;
+use Laminas\EventManager\EventInterface;
+use Laminas\View\Exception\InvalidArgumentException;
+use ThemeTwig\Renderer\TwigRenderer;
+use Laminas\Mvc\MvcEvent;
+use \Omeka\Module\AbstractModule;
 
-class Module extends AbstractModule
+class Module extends AbstractModule 
 {
-    const MODULE_NAME = 'omeka_twig';
+    const MODULE_NAME = 'theme_twig';
+
 
     public function onBootstrap(MvcEvent $e)
-    {
-        // Remember to keep the init() method as lightweight as possible
-        $events = $e->getApplication()->getEventManager();
-        $events->attach(MvcEvent::EVENT_ROUTE, array($this, 'onRoute'), -10000);
-    }
-
-    /**
-     * Listen to the bootstrap event
-     *
-     * @param \Zend\Mvc\MvcEvent|EventInterface $e
-     *
-     * @return array
-     */
-    public function onRoute(MvcEvent $e)
     {
         $app       = $e->getApplication();
         $container = $app->getServiceManager();
 
+        //$currentTheme =  $container->get('Omeka\Site\ThemeManager')->getTheme('freedom');
+        // Add the theme view templates to the path stack.
+        //echo "<pre>Hello theme:";
+        //print_r($container->get('Omeka\Site\ThemeManager'));
+        $container->get('ViewTemplatePathStack')->addPath("/opt/omeka-s/build/html/modules/ZoteroImport/view/");
+        //echo "</pre>";
+
         /**
-         * @var \Twig_Environment $env
+         * @var Environment $env
          */
         $config      = $container->get('Configuration');
-        $env         = $container->get('Twig_Environment');
+        $env         = $container->get(Environment::class);
         $name        = static::MODULE_NAME;
         $options     = $envOptions = empty($config[$name]) ? [] : $config[$name];
         $extensions  = empty($options['extensions']) ? [] : $options['extensions'];
@@ -64,9 +57,10 @@ class Module extends AbstractModule
             }
         }
 
-        $container->get(View\TwigStrategy::class)->setRenderer($renderer);
+        return;
     }
 
+    
     /**
      * Returns configuration to merge with application configuration
      *

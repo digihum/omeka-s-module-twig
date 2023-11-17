@@ -1,13 +1,12 @@
 <?php
 
-namespace OmekaTwig\Service;
+namespace ThemeTwig\Service;
 
-use OmekaTwig\Module;
-use OmekaTwig\Loader\MapLoader;
+use ThemeTwig\Module;
+use ThemeTwig\Loader\MapLoader;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class TwigMapLoaderFactory implements FactoryInterface
 {
@@ -17,16 +16,15 @@ class TwigMapLoaderFactory implements FactoryInterface
      * @param array|null         $options
      *
      * @return MapLoader
-     * @throws \Twig_Error_Loader
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : MapLoader
     {
         $config  = $container->get('Configuration');
         $name    = Module::MODULE_NAME;
         $options = $envOptions = empty($config[$name]) ? [] : $config[$name];
         $suffix  = empty($options['suffix']) ? TwigLoaderFactory::DEFAULT_SUFFIX : $options['suffix'];
 
-        /** @var \Zend\View\Resolver\TemplateMapResolver $zfMap */
+        /** @var \Laminas\View\Resolver\TemplateMapResolver $zfMap */
         $zfMap = $container->get('ViewTemplateMapResolver');
 
         $loader = new MapLoader();

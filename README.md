@@ -7,7 +7,7 @@ This project borrows heavily from [ZendTwig](https://github.com/OxCom/zf3-twig) 
 
 ## Installation
 
-1. Copy the project files into `$OMEKA_ROOT/modules/OmekaTwig`
+1. Copy the project files into `$OMEKA_ROOT/modules/ThemeTwig`
 2. If you installed via `git clone` (or the `vendor` directory does not exist for some other reason) run `composer install`
 3. Go into the Omeka-S admin UI and activate the module
 

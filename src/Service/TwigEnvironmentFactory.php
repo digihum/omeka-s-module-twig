@@ -1,13 +1,13 @@
 <?php
-namespace OmekaTwig\Service;
+namespace ThemeTwig\Service;
 
-use Twig_Environment;
-use OmekaTwig\Module;
+use Twig\Environment;
+use ThemeTwig\Module;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use OmekaTwig\View\FallbackFunction;
-use OmekaTwig\View\HelperPluginManager;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use ThemeTwig\View\FallbackFunction;
+use ThemeTwig\View\HelperPluginManager;
 
 class TwigEnvironmentFactory implements FactoryInterface
 {
@@ -18,35 +18,36 @@ class TwigEnvironmentFactory implements FactoryInterface
      *
      * @return Twig_Environment
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
-        $config      = $container->get('Configuration');
-        $name        = Module::MODULE_NAME;
-        $options     = $envOptions = empty($config[$name]) ? [] : $config[$name];
-        $envOptions  = empty($options['environment']) ? [] : $options['environment'];
-        $loader      = $container->get('Twig_Loader_Chain');
-        $env         = new Twig_Environment($loader, $envOptions);
-        $zendHelpers = !isset($options['invoke_zend_helpers']) ? false : (bool)$options['invoke_zend_helpers'];
-
-        if ($zendHelpers) {
-            $twigHelperPluginManager = $container->get(HelperPluginManager::class);
-            $zendHelperPluginManager = $container->get('ViewHelperManager');
-            $env->registerUndefinedFunctionCallback(
-                function ($name) use ($twigHelperPluginManager, $zendHelperPluginManager) {
-                    if ($twigHelperPluginManager->has($name) || $zendHelperPluginManager->has($name)) {
-                        return new FallbackFunction($name);
-                    }
-
-                    $name = strtolower('zendviewhelper' . $name);
-                    if ($zendHelperPluginManager->has($name)) {
-                        return new FallbackFunction($name);
-                    }
-
-                    return false;
-                }
-            );
-        }
-
+    
+     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : Environment
+     {
+         $config      = $container->get('Configuration');
+         $name        = Module::MODULE_NAME;
+         $options     = $envOptions = empty($config[$name]) ? [] : $config[$name];
+         $envOptions  = empty($options['environment']) ? [] : $options['environment'];
+         $loader      = $container->get(\Twig\Loader\ChainLoader::class);
+         $env         = new Environment($loader, $envOptions);
+         $zendHelpers = !isset($options['invoke_zend_helpers']) ? false : (bool)$options['invoke_zend_helpers'];
+ 
+         if ($zendHelpers) {
+             $twigHelperPluginManager = $container->get(HelperPluginManager::class);
+             $zendHelperPluginManager = $container->get('ViewHelperManager');
+             $env->registerUndefinedFunctionCallback(
+                 function ($name) use ($twigHelperPluginManager, $zendHelperPluginManager) {
+                     if ($twigHelperPluginManager->has($name) || $zendHelperPluginManager->has($name)) {
+                         return FallbackFunction::build($name);
+                     }
+ 
+                     $name = strtolower('zendviewhelper' . $name);
+                     if ($zendHelperPluginManager->has($name)) {
+                         return FallbackFunction::build($name);
+                     }
+ 
+                     return false;
+                 }
+             );
+         }
+ 
         return $env;
     }
 }

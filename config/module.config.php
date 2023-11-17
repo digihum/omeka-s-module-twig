@@ -2,29 +2,31 @@
 
 return [
     'modules' => [
-        'OmekaTwig',
+        'ThemeTwig',
     ],
     'view_manager' => [
         'strategies' => [
-            OmekaTwig\View\TwigStrategy::class,
+            ThemeTwig\View\TwigStrategy::class,
         ],
     ],
-    // 'listeners' => [
-    //     'OmekaTwig\View\TwigStrategy',
-    // ],
+     'listeners' => [
+        'ThemeTwig\View\TwigStrategy',
+    ],
     'service_manager' => [
         'factories' => [
-            \OmekaTwig\View\TwigStrategy::class => \OmekaTwig\Service\TwigStrategyFactory::class,
-            \OmekaTwig\View\HelperPluginManager::class => \OmekaTwig\Service\TwigHelperPluginManagerFactory::class,
-            \OmekaTwig\Renderer\TwigRenderer::class => \OmekaTwig\Service\TwigRendererFactory::class,
-            \OmekaTwig\Resolver\TwigResolver::class => \OmekaTwig\Service\TwigResolverFactory::class,
-            \Twig_Environment::class => \OmekaTwig\Service\TwigEnvironmentFactory::class,
-            \Twig_Loader_Chain::class => \OmekaTwig\Service\TwigLoaderFactory::class,
-            \OmekaTwig\Loader\MapLoader::class => \OmekaTwig\Service\TwigMapLoaderFactory::class,
-            \OmekaTwig\Loader\StackLoader::class => \OmekaTwig\Service\TwigStackLoaderFactory::class,
+            \ThemeTwig\View\TwigStrategy::class => \ThemeTwig\Service\TwigStrategyFactory::class,
+            \ThemeTwig\View\HelperPluginManager::class => \ThemeTwig\Service\TwigHelperPluginManagerFactory::class,
+            \ThemeTwig\Renderer\TwigRenderer::class => \ThemeTwig\Service\TwigRendererFactory::class,
+            \ThemeTwig\Resolver\TwigResolver::class => \ThemeTwig\Service\TwigResolverFactory::class,
+            \Twig\Environment::class => \ThemeTwig\Service\TwigEnvironmentFactory::class,
+            \Twig\Loader\ChainLoader::class => \ThemeTwig\Service\TwigLoaderFactory::class,
+            \ThemeTwig\Loader\MapLoader::class => \ThemeTwig\Service\TwigMapLoaderFactory::class,
+            \ThemeTwig\Loader\StackLoader::class => \ThemeTwig\Service\TwigStackLoaderFactory::class,
+            \ThemeTwig\Extension\Extension::class => \ThemeTwig\Service\TwigExtensionFactory::class
         ],
     ],
-    'omeka_twig' => [
+    'theme_twig' => [
+        'suffix' => \ThemeTwig\Service\TwigLoaderFactory::DEFAULT_SUFFIX,
         /**
          * In a ZF3 by default we have this structure:
          *  - ViewModel with template from 'layout/layout'
@@ -32,6 +34,13 @@ return [
          * In that case we should always force standalone state of child models
          */
         'force_standalone' => true,
+        /**
+         * Force Your application to use TwigRender for ViewModel.
+         * If false, then TwigStrategy will be applied only for TwigModel
+         *
+         * @note: In release v.1.5 this parameter will be set to false
+         */
+        'force_twig_strategy' => false,
         /**
          * Developer can disable Zend View Helpers like docType, translate and e.t.c.
          */
@@ -45,18 +54,18 @@ return [
          * Default loaders for views
          */
         'loader_chain' => [
-            \OmekaTwig\Loader\MapLoader::class,
-            \OmekaTwig\Loader\StackLoader::class,
+            \ThemeTwig\Loader\MapLoader::class,
+            \ThemeTwig\Loader\StackLoader::class,
         ],
         /**
          * List of Twig Extensions
          */
         'extensions' => [
-            \OmekaTwig\Extension\Extension::class,
+            \ThemeTwig\Extension\Extension::class,
         ],
         'helpers' => [
             'configs' => [
-                \Zend\Navigation\View\HelperConfig::class,
+                \Laminas\Navigation\View\HelperConfig::class,
             ],
         ],
     ],

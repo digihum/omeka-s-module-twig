@@ -1,43 +1,50 @@
 <?php
 
-namespace OmekaTwig\View;
+namespace ThemeTwig\View;
 
-use Twig_SimpleFunction;
-use Zend\View\Helper\HelperInterface;
-use OmekaTwig\Module;
+use Twig\TwigFunction;
+use ThemeTwig\Extension\Extension;
 
-class FallbackFunction extends Twig_SimpleFunction
+class FallbackFunction
 {
     /**
      * @param       $name
-     * @param       $callable
-     * @param array $options
+     *
+     * @return TwigFunction
      */
-    public function __construct($name, $callable = null, array $options = [])
+    public static function build($name)
     {
+        /**
+         * Create callback function for injection of Zend View Helpers
+         *
+         * @param \Twig\Environment $env
+         * @param array             ...$args
+         *
+         * @return mixed
+         */
+        $callable = function ($env, ...$args) use ($name) {
+            /**
+             * @var \ThemeTwig\Extension\Extension $extension
+             */
+            $extension = $env->getExtension(Extension::class);
+            $plugin    = $extension->getRenderer()
+                                   ->plugin($name);
+
+            if (is_callable($plugin)) {
+                // helper should implement __invoke() function
+                $args = empty($args) ? [] : $args;
+
+                return call_user_func_array($plugin, $args);
+            } else {
+                return $plugin;
+            }
+        };
+
         $options = [
             'needs_environment' => true,
             'is_safe'           => ['all'],
         ];
 
-        /**
-         * Create callback function for injection of Zend View Helpers
-         *
-         * @param       $env
-         * @param array ...$args
-         *
-         * @return mixed
-         */
-        $callable = function ($env, ... $args) {
-            $plugin = $env->getExtension('\OmekaTwig\Extension\Extension')
-                          ->getRenderer()
-                          ->plugin($this->name);
-
-            $args = empty($args) ? [] : $args;
-
-            return call_user_func_array($plugin, $args);
-        };
-
-        parent::__construct($name, $callable, $options);
+        return new TwigFunction($name, $callable, $options);
     }
 }

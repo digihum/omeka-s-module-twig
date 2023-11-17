@@ -1,13 +1,12 @@
 <?php
 
-namespace OmekaTwig\Service;
+namespace ThemeTwig\Service;
 
-use OmekaTwig\Renderer\TwigRenderer;
-use OmekaTwig\Extension\Extension;
+use ThemeTwig\Renderer\TwigRenderer;
+use ThemeTwig\Extension\Extension;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class TwigExtensionFactory implements FactoryInterface
 {
@@ -18,7 +17,7 @@ class TwigExtensionFactory implements FactoryInterface
      *
      * @return Extension
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : Extension
     {
         return new $requestedName($container, $container->get(TwigRenderer::class));
     }

@@ -1,15 +1,16 @@
 <?php
-namespace OmekaTwig\Service;
+namespace ThemeTwig\Service;
 
-use Twig_Environment;
-use OmekaTwig\Module;
-use OmekaTwig\Renderer\TwigRenderer;
-use OmekaTwig\Resolver\TwigResolver;
-use OmekaTwig\View\HelperPluginManager as TwigHelperPluginManager;
+use Twig\Environment;
+
+use ThemeTwig\Module;
+use ThemeTwig\Renderer\TwigRenderer;
+use ThemeTwig\Resolver\TwigResolver;
+use ThemeTwig\View\HelperPluginManager as TwigHelperPluginManager;
 
 use Interop\Container\ContainerInterface;
-use Zend\View\View;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\View\View;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class TwigRendererFactory implements FactoryInterface
 {
@@ -20,21 +21,19 @@ class TwigRendererFactory implements FactoryInterface
      *
      * @return TwigRenderer
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : TwigRenderer
     {
         $config      = $container->get('Configuration');
         $name        = Module::MODULE_NAME;
         $options     = empty($config[$name]) ? [] : $config[$name];
 
         /**
-         * @var Twig_Environment $env
+         * @var Environment $env
          */
-        $env      = $container->get(Twig_Environment::class);
-        $renderer = new TwigRenderer(
-            $container->get(View::class),
-            $env,
-            $container->get(TwigResolver::class)
-        );
+        $env      = $container->get(Environment::class);
+        $view     = $container->get(View::class);
+        $resolver = $container->get(TwigResolver::class);
+        $renderer = new TwigRenderer($view, $env, $resolver);
 
         $renderer->setTwigHelpers($container->get(TwigHelperPluginManager::class));
         $renderer->setZendHelpers($container->get('ViewHelperManager'));

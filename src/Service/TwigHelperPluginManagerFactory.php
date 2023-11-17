@@ -1,14 +1,14 @@
 <?php
 
-namespace OmekaTwig\Service;
+namespace ThemeTwig\Service;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\ConfigInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\View\Exception;
-use OmekaTwig\Module;
-use OmekaTwig\View\HelperPluginManager;
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\ConfigInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
+use Laminas\View\Exception;
+use ThemeTwig\Module;
+use ThemeTwig\View\HelperPluginManager;
 
 class TwigHelperPluginManagerFactory implements FactoryInterface
 {
@@ -19,7 +19,7 @@ class TwigHelperPluginManagerFactory implements FactoryInterface
      *
      * @return HelperPluginManager
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) : HelperPluginManager
     {
         $config     = $container->get('Configuration');
         $name       = Module::MODULE_NAME;
@@ -28,24 +28,36 @@ class TwigHelperPluginManagerFactory implements FactoryInterface
         $configs    = empty($helpers['configs']) ? [] : $helpers['configs'];
         $viewHelper = new HelperPluginManager($container, $configs);
 
-        foreach ($configs as $configClass) {
-            if (is_string($configClass) && class_exists($configClass)) {
+        foreach ($configs as $configDefinition) {
+            $config = null;
+
+            if (is_string($configDefinition) && $container->has($configDefinition)) {
+                $config = $container->get($configDefinition);
+            } elseif (is_string($configDefinition) && class_exists($configDefinition)) {
                 /** @var ConfigInterface $config */
-                $config = new $configClass;
+                $config = new $configDefinition;
 
                 if (!$config instanceof ConfigInterface) {
-                    throw new Exception\RuntimeException(
-                        sprintf(
-                            'Invalid service manager configuration class provided; received "%s",
-                                expected class implementing %s',
-                            $configClass,
-                            ConfigInterface::class
-                        )
-                    );
-                }
+                    $msg = 'Invalid service manager configuration class provided; received "%s",'
+                            . 'expected class implementing %s';
+                    $msg = sprintf($msg, $configDefinition, ConfigInterface::class);
 
-                $config->configureServiceManager($viewHelper);
+                    throw new Exception\RuntimeException($msg);
+                }
+            } elseif (is_array($configDefinition)) {
+                $config = new Config($configDefinition);
             }
+
+            if (empty($config)) {
+                throw new Exception\RuntimeException(
+                    sprintf(
+                        'Unable to resolve provided configuration to valid instance of %s',
+                        ConfigInterface::class
+                    )
+                );
+            }
+
+            $config->configureServiceManager($viewHelper);
         }
 
         return $viewHelper;
