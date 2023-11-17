@@ -1,5 +1,5 @@
 {
-    "name": "digihum/omeka-twig",
+    "name": "digihum/omeka-s-module-twig",
     "description": "Adds the twig templating language to Omeka-S",
     "type": "omeka-s-module",
     "require": {
